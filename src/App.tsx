@@ -1,10 +1,17 @@
+import 'react-native-gesture-handler';
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, StatusBar} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
 
-export const App = (): React.ReactNode => {
+import {Routes} from './routes';
+
+export function App() {
   return (
-    <View>
-      <Text>This is working really well</Text>
-    </View>
+    <NavigationContainer>
+      <StatusBar barStyle="dark-content" backgroundColor="#F0F0F7" />
+      <View style={{flex: 1, backgroundColor: '#F0F0F7'}}>
+        <Routes />
+      </View>
+    </NavigationContainer>
   );
-};
+}

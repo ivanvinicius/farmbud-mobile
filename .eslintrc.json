@@ -39,7 +39,10 @@
     "import/prefer-default-export": "off",
     "camelcase": "off",
     "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
     "react/prop-types": "off",
+    "@typescript-eslint/interface-name-prefix": "off",
+    "react/jsx-closing-bracket-location": "off",
     "@typescript-eslint/naming-convention": [
       "error",
       {
