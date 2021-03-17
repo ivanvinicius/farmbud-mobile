@@ -1,5 +1,3 @@
-
-
     button-purple-text: #FFFFFF;
     gray-header: #383838;
     table-row-even: #DDDDDD;
@@ -17,5 +15,3 @@
 
     orange: #DE5431;
     orange-dark: #C53E1E;
-
-
