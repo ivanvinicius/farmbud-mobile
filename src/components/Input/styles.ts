@@ -26,18 +26,16 @@ export const Container = styled.View<IContainerProps>`
   border-style: solid;
   border-color: #e6e6f0;
 
-  color: red;
+  ${(props) =>
+    props.hasError &&
+    css`
+      border-color: #de5431;
+    `}
 
   ${(props) =>
     props.isFocused &&
     css`
       border-color: #7620d8;
-    `}
-
-  ${(props) =>
-    props.hasError &&
-    css`
-      border-color: #de5431;
     `}
 `;
 

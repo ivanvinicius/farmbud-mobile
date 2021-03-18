@@ -5,13 +5,16 @@ import {
   Platform,
   View,
   TextInput,
+  Alert,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {FormHandles} from '@unform/core';
 import {Form} from '@unform/mobile';
+import * as Yup from 'yup';
 
 import Input from '../../../components/Input';
 import {Button} from '../../../components/Button';
+import {getValidationErrors} from '../../../utils/getValidationErrors';
 
 import {
   ApplicationHeader,
@@ -22,14 +25,46 @@ import {
   CreateAccountButtonText,
 } from './styles';
 
+interface ISubmitFormData {
+  email: string;
+  password: string;
+}
+
 export function SignIn() {
   const {navigate} = useNavigation();
   const formRef = useRef<FormHandles>(null);
   const passwordInputRef = useRef<TextInput>(null);
 
-  const handleSubmit = useCallback((data: {}) => {
-    console.log(data);
-  }, []);
+  const handleSubmit = useCallback(
+    async ({email, password}: ISubmitFormData) => {
+      try {
+        formRef.current?.setErrors({});
+
+        const schema = Yup.object().shape({
+          email: Yup.string().email().required('Informe o email'),
+          password: Yup.string()
+            .min(6, 'No mínimo 6 digitos')
+            .required('No mínimo 6 digitos'),
+        });
+
+        await schema.validate({email, password}, {abortEarly: false});
+
+        // await signIn({ email, password });
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(err);
+
+          formRef.current?.setErrors(errors);
+        } else {
+          Alert.alert(
+            'Erro',
+            'Ocorreu um erro no login, cheque suas credenciais.',
+          );
+        }
+      }
+    },
+    [],
+  );
 
   return (
     <KeyboardAvoidingView
