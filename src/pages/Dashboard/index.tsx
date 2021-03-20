@@ -15,7 +15,14 @@ export function Dashboard() {
       <Header />
 
       <View>
-        <TouchableOpacity onPress={() => navigate('Cultures')}>
+        <TouchableOpacity
+          onPress={() => navigate('Areas')}
+          style={{marginBottom: 30}}>
+          <Text style={{color: '#7620D8'}}>Areas</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigate('Cultures')}
+          style={{marginBottom: 30}}>
           <Text style={{color: '#7620D8'}}>Culturas</Text>
         </TouchableOpacity>
       </View>

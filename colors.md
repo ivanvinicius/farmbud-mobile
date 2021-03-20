@@ -8,7 +8,7 @@
     input-placeholder: #9C98A6;
     input-text-disabled: #9F8787;
 
-    text: #6A6180;
+    ###text: #6A6180;
 
     purple: #7620D8;
     purple-dark: #5506B0;

@@ -6,6 +6,7 @@ import {ICultureProps} from './index';
 
 export const Container = styled.View`
   flex: 1;
+  padding: 0 30px;
 `;
 
 export const List = styled(FlatList as new () => FlatList<ICultureProps>)``;

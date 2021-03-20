@@ -2,6 +2,7 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import {Dashboard} from '../pages/Dashboard';
+import {Areas} from '../pages/Areas';
 import {Cultures} from '../pages/Cultures';
 
 const App = createStackNavigator();
@@ -11,9 +12,10 @@ export function AppRoutes() {
     <App.Navigator
       screenOptions={{
         headerShown: false,
-        cardStyle: {backgroundColor: '#F0F0F7', paddingHorizontal: 30},
+        cardStyle: {backgroundColor: '#F0F0F7'},
       }}>
       <App.Screen name="Dashboard" component={Dashboard} />
+      <App.Screen name="Areas" component={Areas} />
       <App.Screen name="Cultures" component={Cultures} />
     </App.Navigator>
   );
