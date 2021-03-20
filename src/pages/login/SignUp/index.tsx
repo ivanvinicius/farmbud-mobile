@@ -15,6 +15,7 @@ import * as Yup from 'yup';
 import Input from '../../../components/Input';
 import {Button} from '../../../components/Button';
 import {getValidationErrors} from '../../../utils/getValidationErrors';
+import {api} from '../../../services/api';
 
 import {
   ApplicationHeader,
@@ -52,7 +53,11 @@ export function SignUp() {
 
         await schema.validate({name, email, password}, {abortEarly: false});
 
-        // await signIn({ email, password });
+        await api.post('/clients', {name, email, password});
+
+        Alert.alert('Sucesso', 'Cadastro realizado.');
+
+        goBack();
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -66,7 +71,7 @@ export function SignUp() {
         }
       }
     },
-    [],
+    [goBack],
   );
 
   return (

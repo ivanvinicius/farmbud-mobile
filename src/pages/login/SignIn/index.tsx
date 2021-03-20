@@ -15,6 +15,7 @@ import * as Yup from 'yup';
 import Input from '../../../components/Input';
 import {Button} from '../../../components/Button';
 import {getValidationErrors} from '../../../utils/getValidationErrors';
+import {useAuth} from '../../../hooks/Auth';
 
 import {
   ApplicationHeader,
@@ -34,6 +35,7 @@ export function SignIn() {
   const {navigate} = useNavigation();
   const formRef = useRef<FormHandles>(null);
   const passwordInputRef = useRef<TextInput>(null);
+  const {signIn} = useAuth();
 
   const handleSubmit = useCallback(
     async ({email, password}: ISubmitFormData) => {
@@ -49,7 +51,7 @@ export function SignIn() {
 
         await schema.validate({email, password}, {abortEarly: false});
 
-        // await signIn({ email, password });
+        await signIn({email, password});
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -63,7 +65,7 @@ export function SignIn() {
         }
       }
     },
-    [],
+    [signIn],
   );
 
   return (
