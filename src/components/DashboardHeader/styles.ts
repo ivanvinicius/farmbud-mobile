@@ -13,7 +13,7 @@ export const ModalContent = styled.View`
   height: 150px;
 
   margin: 75% auto;
-  padding: 20px;
+  padding: 16px;
   justify-content: center;
 
   border-radius: 8px;

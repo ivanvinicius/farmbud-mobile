@@ -16,7 +16,7 @@ import {
   SignOutButtonText,
 } from './styles';
 
-export function Header() {
+export function DashboardHeader() {
   const {user, signOut} = useAuth();
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
