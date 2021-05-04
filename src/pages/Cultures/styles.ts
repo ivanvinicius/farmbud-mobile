@@ -16,6 +16,8 @@ export const ListItem = styled(TouchableOpacity)`
   margin-bottom: 16px;
   padding: 8px;
 
+  overflow: hidden;
+
   justify-content: center;
 
   background-color: #f8f8fc;

@@ -9,7 +9,7 @@ import {AppProvider} from './hooks';
 export function App() {
   return (
     <NavigationContainer>
-      <StatusBar barStyle="dark-content" backgroundColor="#F0F0F7" />
+      <StatusBar hidden />
 
       <AppProvider>
         <View style={{flex: 1, backgroundColor: '#F0F0F7'}}>

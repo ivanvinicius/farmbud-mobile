@@ -27,7 +27,9 @@ export function Cultures() {
         data={cultures}
         keyExtractor={(culture) => culture.id}
         renderItem={({item: culture}) => (
-          <ListItem onPress={() => navigate('Dashboard')}>
+          <ListItem
+            style={{elevation: 2}}
+            onPress={() => navigate('Dashboard')}>
             <ListItemDescription>{culture.name}</ListItemDescription>
           </ListItem>
         )}
