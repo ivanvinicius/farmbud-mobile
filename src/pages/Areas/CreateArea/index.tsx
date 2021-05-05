@@ -4,7 +4,6 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import {useNavigation} from '@react-navigation/native';
 
 import {PageTitle} from '../../../components/PageTitle';
-import {darkMapStyle} from '../../../styles/CustomMapStyle';
 import mapMarkerImg from '../../../assets/images/marker.png';
 
 import {Container, Header, MapContainer, NextButton} from './styles';
@@ -28,8 +27,8 @@ export function CreateArea() {
       </Header>
 
       <MapContainer
+        mapType="satellite"
         onPress={handleSelectMapPosition}
-        customMapStyle={darkMapStyle}
         provider={PROVIDER_GOOGLE}
         initialRegion={{
           latitude: -27.19627906930224,

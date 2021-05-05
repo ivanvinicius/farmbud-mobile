@@ -59,10 +59,10 @@ export function Dashboard() {
       </View>
 
       <View>
-        <DashboardSmallAction onPress={() => navigate('Help')}>
+        <DashboardSmallAction onPress={() => navigate('Seasons')}>
           <DashboardIconSmall name="help-circle" />
 
-          <DashboardActionTitleMainSmall>Ajuda</DashboardActionTitleMainSmall>
+          <DashboardActionTitleMainSmall>Seasons</DashboardActionTitleMainSmall>
         </DashboardSmallAction>
       </View>
     </Container>

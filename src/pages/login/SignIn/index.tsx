@@ -2,7 +2,6 @@ import React, {useCallback, useRef} from 'react';
 import {
   KeyboardAvoidingView,
   ScrollView,
-  Platform,
   View,
   TextInput,
   Alert,
@@ -69,10 +68,7 @@ export function SignIn() {
   );
 
   return (
-    <KeyboardAvoidingView
-      style={{flex: 1}}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      enabled>
+    <KeyboardAvoidingView style={{flex: 1}} behavior="padding" enabled>
       <ScrollView
         contentContainerStyle={{flex: 1}}
         keyboardShouldPersistTaps="handled">

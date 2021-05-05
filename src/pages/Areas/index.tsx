@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Callout, Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import FeatherIcon from 'react-native-vector-icons/Feather';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 
-import {darkMapStyle} from '../../styles/CustomMapStyle';
 import {IAreaProps} from '../../dtos/IAreaProps';
 import {api} from '../../services/api';
 import mapMarkerImg from '../../assets/images/marker.png';
@@ -24,7 +23,7 @@ export function Areas() {
   const navigation = useNavigation();
   const [areas, setAreas] = useState<IAreaProps[]>([]);
 
-  useEffect(() => {
+  useFocusEffect(() => {
     api.get('/areas').then((response) => {
       const formattedData = response.data.map((item: any) => ({
         ...item,
@@ -35,7 +34,7 @@ export function Areas() {
 
       setAreas(formattedData);
     });
-  }, []);
+  });
 
   return (
     <Container>
@@ -46,7 +45,7 @@ export function Areas() {
       </BackButton>
 
       <MapContainer
-        customMapStyle={darkMapStyle}
+        mapType="satellite"
         provider={PROVIDER_GOOGLE}
         initialRegion={{
           latitude: -27.19627906930224,
