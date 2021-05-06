@@ -1,12 +1,15 @@
 import React, {useEffect, useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
 
 import {PageTitle} from '../../components/PageTitle';
 import {api} from '../../services/api';
 import {ISeasonProps} from '../../dtos/ISeasonProps';
 
-import {Container, Texts, AddButton} from './styles';
+import {Container, Texts, AddButton, AddButtonText} from './styles';
 
 export function Seasons() {
+  const navigation = useNavigation();
+
   const [seasons, setSeasons] = useState<ISeasonProps[]>([]);
 
   useEffect(() => {
@@ -19,7 +22,9 @@ export function Seasons() {
 
       <Texts>Seasons Screen</Texts>
 
-      <AddButton onPress={() => ({})}>Cadastrar</AddButton>
+      <AddButton onPress={() => navigation.navigate('CreateSeason')}>
+        <AddButtonText>Nova Temporada</AddButtonText>
+      </AddButton>
     </Container>
   );
 }

@@ -81,7 +81,7 @@ export function AreaDetail() {
               <Input
                 name="name"
                 placeholder="Nome"
-                icon="image"
+                icon="tag"
                 autoCorrect={false}
               />
               <Input

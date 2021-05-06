@@ -8,6 +8,7 @@ import {CreateArea} from '../pages/Areas/CreateArea';
 import {AreaDetail} from '../pages/Areas/AreaDetail';
 
 import {Seasons} from '../pages/Seasons';
+import {CreateSeason} from '../pages/Seasons/CreateSeason';
 
 import {Cultures} from '../pages/Cultures';
 import {Help} from '../pages/Help';
@@ -28,6 +29,7 @@ export function AppRoutes() {
       <App.Screen name="AreaDetail" component={AreaDetail} />
 
       <App.Screen name="Seasons" component={Seasons} />
+      <App.Screen name="CreateSeason" component={CreateSeason} />
 
       <App.Screen name="Cultures" component={Cultures} />
       <App.Screen name="Help" component={Help} />
