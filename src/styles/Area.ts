@@ -10,7 +10,7 @@ export const Container = styled.View`
   height: 100%;
 `;
 
-export const BackButton = styled.View`
+export const BackButton = styled(RectButton)`
   position: absolute;
   z-index: 5;
   top: 26px;

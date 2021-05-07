@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Callout, Marker, PROVIDER_GOOGLE} from 'react-native-maps';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 
-import {IAreaProps} from '../../dtos/IAreaProps';
-import {api} from '../../services/api';
-import mapMarkerImg from '../../assets/images/marker.png';
+import {IAreaProps} from '../../../dtos/IAreaProps';
+import {api} from '../../../services/api';
+import mapMarkerImg from '../../../assets/images/marker.png';
 
 import {
   Container,
@@ -16,12 +15,22 @@ import {
   MapContainer,
   CalloutContainer,
   CalloutText,
-  AddButton,
-} from './styles';
+} from '../../../styles/Area';
 
-export function Areas() {
-  const navigation = useNavigation();
+export function SelectArea() {
+  const {goBack, navigate} = useNavigation();
   const [areas, setAreas] = useState<IAreaProps[]>([]);
+
+  const handleGoBack = useCallback(() => {
+    return goBack();
+  }, [goBack]);
+
+  const handleNavigateToNextStep = useCallback(
+    (areaId: string) => {
+      return navigate('SelectCulture', {area: {id: areaId}});
+    },
+    [navigate],
+  );
 
   useFocusEffect(() => {
     api.get('/areas').then((response) => {
@@ -38,10 +47,8 @@ export function Areas() {
 
   return (
     <Container>
-      <BackButton style={{elevation: 2}}>
-        <TouchableOpacity onPress={() => navigation.navigate('Dashboard')}>
-          <FeatherIcon name="arrow-left" size={22} color="#7620D8" />
-        </TouchableOpacity>
+      <BackButton style={{elevation: 2}} onPress={handleGoBack}>
+        <FeatherIcon name="arrow-left" size={22} color="#7620D8" />
       </BackButton>
 
       <MapContainer
@@ -67,7 +74,9 @@ export function Areas() {
                 latitude: area.latitude,
                 longitude: area.longitude,
               }}>
-              <Callout onPress={() => navigation.navigate('Cultures')} tooltip>
+              <Callout
+                onPress={() => handleNavigateToNextStep(area.id)}
+                tooltip>
                 <CalloutContainer>
                   <CalloutText>{area.description}</CalloutText>
                 </CalloutContainer>
@@ -76,12 +85,6 @@ export function Areas() {
           );
         })}
       </MapContainer>
-
-      <AddButton
-        onPress={() => navigation.navigate('CreateArea')}
-        style={{elevation: 2}}>
-        <FeatherIcon name="plus" size={22} color="#FFF" />
-      </AddButton>
     </Container>
   );
 }

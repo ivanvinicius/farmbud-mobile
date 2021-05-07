@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import FeatherIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {RectButton} from 'react-native-gesture-handler';
 
 export const Container = styled.View`
   flex: 1;
@@ -28,11 +28,11 @@ export const Title = styled.Text`
   margin-bottom: 24px;
 `;
 
-export const CreateAccountButton = styled(TouchableOpacity)`
+export const BackToLoginButton = styled(RectButton)`
   margin-top: 52px;
 `;
 
-export const CreateAccountButtonText = styled.Text`
+export const BackToLoginButtonText = styled.Text`
   color: #de5431;
   font-family: 'Poppins-Medium';
   font-size: 16px;

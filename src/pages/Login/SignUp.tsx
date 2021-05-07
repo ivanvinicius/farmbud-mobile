@@ -5,16 +5,17 @@ import {
   View,
   TextInput,
   Alert,
+  Platform,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {FormHandles} from '@unform/core';
 import {Form} from '@unform/mobile';
 import * as Yup from 'yup';
 
-import Input from '../../../components/Input';
-import {Button} from '../../../components/Button';
-import {getValidationErrors} from '../../../utils/getValidationErrors';
-import {api} from '../../../services/api';
+import Input from '../../components/Input';
+import {Button} from '../../components/Button';
+import {getValidationErrors} from '../../utils/getValidationErrors';
+import {api} from '../../services/api';
 
 import {
   ApplicationHeader,
@@ -23,7 +24,7 @@ import {
   Title,
   BackToLoginButton,
   BackToLoginButtonText,
-} from './styles';
+} from '../../styles/SignUp';
 
 interface ISubmitFormData {
   name: string;
@@ -36,6 +37,10 @@ export function SignUp() {
   const formRef = useRef<FormHandles>(null);
   const emailInputRef = useRef<TextInput>(null);
   const passwordInputRef = useRef<TextInput>(null);
+
+  const handleGoBack = useCallback(() => {
+    return goBack();
+  }, [goBack]);
 
   const handleSubmit = useCallback(
     async ({name, email, password}: ISubmitFormData) => {
@@ -56,7 +61,7 @@ export function SignUp() {
 
         Alert.alert('Sucesso', 'Cadastro realizado.');
 
-        goBack();
+        handleGoBack();
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -70,11 +75,14 @@ export function SignUp() {
         }
       }
     },
-    [goBack],
+    [handleGoBack],
   );
 
   return (
-    <KeyboardAvoidingView style={{flex: 1}} behavior="padding" enabled>
+    <KeyboardAvoidingView
+      style={{flex: 1}}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      enabled>
       <ScrollView
         contentContainerStyle={{flex: 1}}
         keyboardShouldPersistTaps="handled">
@@ -124,7 +132,7 @@ export function SignUp() {
             </Button>
           </Form>
 
-          <BackToLoginButton onPress={() => goBack()}>
+          <BackToLoginButton onPress={handleGoBack}>
             <BackToLoginButtonText>Voltar ao login</BackToLoginButtonText>
           </BackToLoginButton>
         </Container>

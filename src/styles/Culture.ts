@@ -1,8 +1,7 @@
 import styled from 'styled-components/native';
 import {FlatList} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-
-import {ICultureProps} from './index';
+import {RectButton} from 'react-native-gesture-handler';
+import {ICultureProps} from '../dtos/ICultureProps';
 
 export const Container = styled.View`
   flex: 1;
@@ -11,20 +10,24 @@ export const Container = styled.View`
 
 export const List = styled(FlatList as new () => FlatList<ICultureProps>)``;
 
-export const ListItem = styled(TouchableOpacity)`
+export const ListItem = styled(RectButton)`
+  width: 100%;
   height: 60px;
+
   margin-bottom: 16px;
-  padding: 8px;
 
   overflow: hidden;
+`;
 
+export const ListItemBorder = styled.View`
+  width: 100%;
+  height: 100%;
+
+  border-radius: 8px;
+  padding: 8px;
   justify-content: center;
-
   background-color: #f8f8fc;
   border: 1px solid #e6e6f0;
-  border-radius: 8px;
-
-  box-shadow: 6px 6px 9px rgba(0, 0, 0, 0.2);
 `;
 
 export const ListItemDescription = styled.Text`

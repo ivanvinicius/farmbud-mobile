@@ -6,9 +6,14 @@ import {useNavigation} from '@react-navigation/native';
 import {PageTitle} from '../../../components/PageTitle';
 import mapMarkerImg from '../../../assets/images/marker.png';
 
-import {Container, Header, MapContainer, NextButton} from './styles';
+import {
+  Container,
+  Header,
+  MapContainer,
+  NextButton,
+} from '../../../styles/SelectMapPosition';
 
-export function CreateArea() {
+export function SelectMapPosition() {
   const navigation = useNavigation();
   const [position, setPosition] = useState({latitude: 0, longitude: 0});
 
@@ -23,7 +28,7 @@ export function CreateArea() {
   return (
     <Container>
       <Header>
-        <PageTitle title="Selecione o Local" navigateBack />
+        <PageTitle title="Selecione o Local" />
       </Header>
 
       <MapContainer

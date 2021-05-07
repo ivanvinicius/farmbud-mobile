@@ -5,16 +5,17 @@ import {
   View,
   TextInput,
   Alert,
+  Platform,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {FormHandles} from '@unform/core';
 import {Form} from '@unform/mobile';
 import * as Yup from 'yup';
 
-import Input from '../../../components/Input';
-import {Button} from '../../../components/Button';
-import {getValidationErrors} from '../../../utils/getValidationErrors';
-import {useAuth} from '../../../hooks/Auth';
+import Input from '../../components/Input';
+import {Button} from '../../components/Button';
+import {getValidationErrors} from '../../utils/getValidationErrors';
+import {useAuth} from '../../hooks/Auth';
 
 import {
   ApplicationHeader,
@@ -23,7 +24,7 @@ import {
   Title,
   CreateAccountButton,
   CreateAccountButtonText,
-} from './styles';
+} from '../../styles/SignIn';
 
 interface ISubmitFormData {
   email: string;
@@ -35,6 +36,10 @@ export function SignIn() {
   const formRef = useRef<FormHandles>(null);
   const passwordInputRef = useRef<TextInput>(null);
   const {signIn} = useAuth();
+
+  const handleNavigate = useCallback(() => {
+    return navigate('SignUp');
+  }, [navigate]);
 
   const handleSubmit = useCallback(
     async ({email, password}: ISubmitFormData) => {
@@ -68,7 +73,10 @@ export function SignIn() {
   );
 
   return (
-    <KeyboardAvoidingView style={{flex: 1}} behavior="padding" enabled>
+    <KeyboardAvoidingView
+      style={{flex: 1}}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      enabled>
       <ScrollView
         contentContainerStyle={{flex: 1}}
         keyboardShouldPersistTaps="handled">
@@ -108,7 +116,7 @@ export function SignIn() {
             </Button>
           </Form>
 
-          <CreateAccountButton onPress={() => navigate('SignUp')}>
+          <CreateAccountButton onPress={handleNavigate}>
             <CreateAccountButtonText>Criar nova conta</CreateAccountButtonText>
           </CreateAccountButton>
         </Container>

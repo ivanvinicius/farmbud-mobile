@@ -4,14 +4,14 @@ import React, {useCallback, useRef, useState} from 'react';
 import {Form} from '@unform/mobile';
 import {FormHandles} from '@unform/core';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import {Platform} from 'react-native';
 
-import {Alert, Platform} from 'react-native';
-import {PageTitle} from '../../../components/PageTitle';
-import {Button} from '../../../components/Button';
-import Input from '../../../components/Input';
+import {PageTitle} from '../../components/PageTitle';
+import {Button} from '../../components/Button';
+import Input from '../../components/Input';
+import {ButtonCalendar} from '../../components/ButtonCalendar';
 
-import {Container, Content} from './styles';
-import {ButtonCalendar} from '../../../components/ButtonCalendar';
+import {Container, Content} from '../../styles/CreateSeason';
 
 interface IFormData {
   name: string;
@@ -35,11 +35,11 @@ export function CreateSeason() {
     if (newDate) setSelectedDate(newDate);
   }, []);
 
-  const handleSubmit = useCallback(async (_data: IFormData) => ({}), []);
+  const handleSubmit = useCallback(async (_data: IFormData) => ({}), []); //eslint-disable-line
 
   return (
     <Container>
-      <PageTitle title="Cadastrar Temporada" navigateBack />
+      <PageTitle title="Cadastrar Temporada" />
 
       <Content>
         {showDatePicker && (

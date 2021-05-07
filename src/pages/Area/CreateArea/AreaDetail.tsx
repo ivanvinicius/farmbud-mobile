@@ -1,7 +1,7 @@
 import React, {useCallback, useRef} from 'react';
 import {FormHandles} from '@unform/core';
 import {Form} from '@unform/mobile';
-import {Alert, KeyboardAvoidingView, ScrollView} from 'react-native';
+import {Alert, KeyboardAvoidingView, Platform, ScrollView} from 'react-native';
 import * as Yup from 'yup';
 import {useRoute, useNavigation} from '@react-navigation/native';
 
@@ -11,7 +11,7 @@ import {Button} from '../../../components/Button';
 import {api} from '../../../services/api';
 import {getValidationErrors} from '../../../utils/getValidationErrors';
 
-import {Container, Content} from './styles';
+import {Container, Content} from '../../../styles/AreaDetail';
 
 interface IFormData {
   name: string;
@@ -27,10 +27,14 @@ interface IAreaProps {
 }
 
 export function AreaDetail() {
+  const {navigate} = useNavigation();
   const formRef = useRef<FormHandles>(null);
   const route = useRoute();
   const {position} = route.params as IAreaProps;
-  const navigation = useNavigation();
+
+  const handleNavigate = useCallback(() => {
+    return navigate('Areas');
+  }, [navigate]);
 
   const handleSubmit = useCallback(
     async ({name, description, size}: IFormData) => {
@@ -55,7 +59,7 @@ export function AreaDetail() {
 
         Alert.alert('Area cadastrada com sucesso!');
 
-        navigation.navigate('Areas');
+        handleNavigate();
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -66,13 +70,16 @@ export function AreaDetail() {
         }
       }
     },
-    [navigation, position],
+    [handleNavigate, position],
   );
 
   return (
     <Container>
-      <PageTitle title="Detalhes da Área" navigateBack />
-      <KeyboardAvoidingView style={{flex: 1}} behavior="padding" enabled>
+      <PageTitle title="Detalhes da Área" />
+      <KeyboardAvoidingView
+        style={{flex: 1}}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        enabled>
         <ScrollView
           contentContainerStyle={{flex: 1}}
           keyboardShouldPersistTaps="handled">
