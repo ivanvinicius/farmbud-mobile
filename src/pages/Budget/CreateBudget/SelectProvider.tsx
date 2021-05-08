@@ -1,12 +1,22 @@
-import React from 'react';
-import {useRoute} from '@react-navigation/native';
+import React, {useCallback, useEffect, useState} from 'react';
+import {useNavigation, useRoute} from '@react-navigation/native';
 
-import {Container} from '../../../styles/Provider';
 import {PageTitle} from '../../../components/PageTitle';
+import {api} from '../../../services/api';
+import {IProviderProps} from '../../../dtos/IProviderProps';
+
+import {
+  Container,
+  List,
+  ListItem,
+  ListItemBorder,
+  ListItemDescription,
+} from '../../../styles/Provider';
 
 interface IRouteProps {
   area: {
     id: string;
+    size: number;
   };
   culture: {
     id: string;
@@ -20,14 +30,58 @@ interface IRouteProps {
 }
 
 export function SelectProvider() {
+  const [providers, setProviders] = useState<IProviderProps[]>([]);
+  const {navigate} = useNavigation();
   const route = useRoute();
-  const param = route.params as IRouteProps;
 
-  console.log(param); //eslint-disable-line
+  const {area, culture, productivity, season} = route.params as IRouteProps; //eslint-disable-line
+
+  const handleNavigateNextStep = useCallback(
+    (providerId: string) => {
+      return navigate('SelectComposition', {
+        area,
+        culture,
+        productivity,
+        season,
+        provider: {id: providerId},
+      });
+    },
+    [navigate, area, culture, productivity, season],
+  );
+
+  useEffect(() => {
+    api
+      .get('/clients-compositions', {
+        params: {
+          culture_id: culture.id,
+          productivity: productivity.id,
+        },
+      })
+      .then((response) => setProviders(response.data));
+  }, [culture, productivity]);
 
   return (
     <Container>
       <PageTitle title="Fornecedores" />
+
+      <List
+        showsVerticalScrollIndicator={false}
+        data={providers}
+        keyExtractor={(provider) => provider.provider_id}
+        renderItem={({item: provider}) => (
+          <ListItem
+            onPress={() => handleNavigateNextStep(provider.provider_id)}>
+            <ListItemBorder
+              style={{
+                elevation: 1,
+              }}>
+              <ListItemDescription>
+                {provider.provider_name}
+              </ListItemDescription>
+            </ListItemBorder>
+          </ListItem>
+        )}
+      />
     </Container>
   );
 }

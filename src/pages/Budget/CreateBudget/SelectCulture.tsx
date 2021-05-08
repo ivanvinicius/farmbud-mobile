@@ -16,6 +16,7 @@ import {
 interface IRouteProps {
   area: {
     id: string;
+    size: number;
   };
 }
 
@@ -44,11 +45,15 @@ export function SelectCulture() {
       <PageTitle title="Culturas" />
 
       <List
+        showsVerticalScrollIndicator={false}
         data={cultures}
         keyExtractor={(culture) => culture.id}
         renderItem={({item: culture}) => (
           <ListItem onPress={() => handleNavigateNextStep(culture.id)}>
-            <ListItemBorder>
+            <ListItemBorder
+              style={{
+                elevation: 1,
+              }}>
               <ListItemDescription>{culture.name}</ListItemDescription>
             </ListItemBorder>
           </ListItem>

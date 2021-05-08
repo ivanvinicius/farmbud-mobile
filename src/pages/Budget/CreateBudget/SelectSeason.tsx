@@ -16,6 +16,7 @@ import {
 interface IRouteProps {
   area: {
     id: string;
+    size: number;
   };
   culture: {
     id: string;
@@ -52,11 +53,15 @@ export function SelectSeason() {
       <PageTitle title="Temporadas" />
 
       <List
+        showsVerticalScrollIndicator={false}
         data={seasons}
         keyExtractor={(season) => season.id}
         renderItem={({item: season}) => (
           <ListItem onPress={() => handleNavigateNextStep(season.id)}>
-            <ListItemBorder>
+            <ListItemBorder
+              style={{
+                elevation: 1,
+              }}>
               <ListItemDescription>{season.name}</ListItemDescription>
             </ListItemBorder>
           </ListItem>

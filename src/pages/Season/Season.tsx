@@ -28,11 +28,15 @@ export function Season() {
       <PageTitle title="Temporadas" />
 
       <List
+        showsVerticalScrollIndicator={false}
         data={seasons}
         keyExtractor={(season) => season.id}
         renderItem={({item: season}) => (
           <ListItem>
-            <ListItemBorder>
+            <ListItemBorder
+              style={{
+                elevation: 1,
+              }}>
               <ListItemDescription>{season.name}</ListItemDescription>
             </ListItemBorder>
           </ListItem>

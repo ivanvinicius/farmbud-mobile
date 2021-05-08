@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react/jsx-curly-newline */
 
 import React, {useCallback, useEffect, useState} from 'react';
 import {Callout, Marker, PROVIDER_GOOGLE} from 'react-native-maps';
@@ -18,6 +19,11 @@ import {
   CalloutDescription,
 } from '../../../styles/Area';
 
+interface IParamsData {
+  areaId: string;
+  areaSize: number;
+}
+
 export function SelectArea() {
   const {goBack, navigate} = useNavigation();
   const [areas, setAreas] = useState<IAreaProps[]>([]);
@@ -28,8 +34,8 @@ export function SelectArea() {
   }, [goBack]);
 
   const handleNavigateToNextStep = useCallback(
-    (areaId: string) => {
-      return navigate('SelectCulture', {area: {id: areaId}});
+    ({areaId, areaSize}: IParamsData) => {
+      return navigate('SelectCulture', {area: {id: areaId, size: areaSize}});
     },
     [navigate],
   );
@@ -79,7 +85,12 @@ export function SelectArea() {
                 longitude: area.longitude,
               }}>
               <Callout
-                onPress={() => handleNavigateToNextStep(area.id)}
+                onPress={() =>
+                  handleNavigateToNextStep({
+                    areaId: area.id,
+                    areaSize: area.size,
+                  })
+                }
                 tooltip>
                 <CalloutContainer>
                   <CalloutTitle>{area.name}</CalloutTitle>

@@ -15,6 +15,7 @@ import {
 interface IRouteProps {
   area: {
     id: string;
+    size: number;
   };
   culture: {
     id: string;
@@ -63,11 +64,15 @@ export function SelectProductivity() {
       <PageTitle title="Produtividade" />
 
       <List
+        showsVerticalScrollIndicator={false}
         data={producitivity}
         keyExtractor={(p) => p.id}
         renderItem={({item: p}) => (
           <ListItem onPress={() => handleNavigateNextStep(p.id)}>
-            <ListItemBorder>
+            <ListItemBorder
+              style={{
+                elevation: 1,
+              }}>
               <ListItemDescription>{p.description}</ListItemDescription>
             </ListItemBorder>
           </ListItem>

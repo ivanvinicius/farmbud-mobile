@@ -6,6 +6,7 @@ import {SelectCulture} from '../pages/Budget/CreateBudget/SelectCulture';
 import {SelectProductivity} from '../pages/Budget/CreateBudget/SelectProductivity';
 import {SelectSeason} from '../pages/Budget/CreateBudget/SelectSeason';
 import {SelectProvider} from '../pages/Budget/CreateBudget/SelectProvider';
+import {SelectComposition} from '../pages/Budget/CreateBudget/SelectComposition';
 
 const Budget = createStackNavigator();
 
@@ -21,6 +22,7 @@ export function BudgetRoutes() {
       <Budget.Screen name="SelectProductivity" component={SelectProductivity} />
       <Budget.Screen name="SelectSeason" component={SelectSeason} />
       <Budget.Screen name="SelectProvider" component={SelectProvider} />
+      <Budget.Screen name="SelectComposition" component={SelectComposition} />
     </Budget.Navigator>
   );
 }
