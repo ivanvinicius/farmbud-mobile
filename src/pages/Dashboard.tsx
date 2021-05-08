@@ -62,6 +62,19 @@ export function Dashboard() {
         </SmallActionBorder>
       </SmallAction>
 
+      <SmallAction onPress={() => handleNavigate('Area')}>
+        <SmallActionBorder>
+          <Header>
+            <View>
+              <SmallMain>Minhas</SmallMain>
+              <SmallSecondary>Áreas</SmallSecondary>
+            </View>
+            <Icon name="map" />
+          </Header>
+          <Description>Suas áreas de plantio</Description>
+        </SmallActionBorder>
+      </SmallAction>
+
       <SmallAction onPress={() => handleNavigate('Season')}>
         <SmallActionBorder>
           <Header>

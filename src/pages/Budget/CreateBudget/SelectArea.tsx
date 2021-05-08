@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Callout, Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import FeatherIcon from 'react-native-vector-icons/Feather';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 
 import {IAreaProps} from '../../../dtos/IAreaProps';
 import {api} from '../../../services/api';
@@ -14,12 +14,14 @@ import {
   BackButton,
   MapContainer,
   CalloutContainer,
-  CalloutText,
+  CalloutTitle,
+  CalloutDescription,
 } from '../../../styles/Area';
 
 export function SelectArea() {
   const {goBack, navigate} = useNavigation();
   const [areas, setAreas] = useState<IAreaProps[]>([]);
+  const isFocused = useIsFocused();
 
   const handleGoBack = useCallback(() => {
     return goBack();
@@ -32,18 +34,20 @@ export function SelectArea() {
     [navigate],
   );
 
-  useFocusEffect(() => {
-    api.get('/areas').then((response) => {
-      const formattedData = response.data.map((item: any) => ({
-        ...item,
-        size: Number(item.size),
-        latitude: Number(item.latitude),
-        longitude: Number(item.longitude),
-      }));
+  useEffect(() => {
+    if (isFocused) {
+      api.get('/areas').then((response) => {
+        const formattedData = response.data.map((item: any) => ({
+          ...item,
+          size: Number(item.size),
+          latitude: Number(item.latitude),
+          longitude: Number(item.longitude),
+        }));
 
-      setAreas(formattedData);
-    });
-  });
+        setAreas(formattedData);
+      });
+    }
+  }, [isFocused]);
 
   return (
     <Container>
@@ -67,8 +71,8 @@ export function SelectArea() {
               key={area.id}
               icon={mapMarkerImg}
               calloutAnchor={{
-                x: 2.5,
-                y: 0.7,
+                x: 0.5,
+                y: -0.1,
               }}
               coordinate={{
                 latitude: area.latitude,
@@ -78,7 +82,8 @@ export function SelectArea() {
                 onPress={() => handleNavigateToNextStep(area.id)}
                 tooltip>
                 <CalloutContainer>
-                  <CalloutText>{area.description}</CalloutText>
+                  <CalloutTitle>{area.name}</CalloutTitle>
+                  <CalloutDescription>{area.description}</CalloutDescription>
                 </CalloutContainer>
               </Callout>
             </Marker>

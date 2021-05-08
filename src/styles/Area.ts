@@ -34,23 +34,26 @@ export const MapContainer = styled(MapView)`
 `;
 
 export const CalloutContainer = styled.View`
-  align-items: center;
-  justify-content: center;
-
-  width: 160px;
-  height: 70px;
-  padding: 0px 16px;
+  width: 250px;
+  height: 80px;
+  padding: 8px 16px;
 
   background-color: #fff;
+
   border-radius: 8px;
-  border: 1px solid #5506b0;
-  text-align: center;
+  border: 1px solid #e6e6f0;
 `;
 
-export const CalloutText = styled.Text`
-  text-align: center;
+export const CalloutTitle = styled.Text`
   font-family: 'Poppins-Medium';
-  font-size: 14px;
+  font-size: 18px;
+  color: #383838;
+`;
+
+export const CalloutDescription = styled.Text`
+  font-family: 'Poppins-regular';
+  font-size: 16px;
+  color: #9c98a6;
 `;
 
 export const AddButton = styled(RectButton)`

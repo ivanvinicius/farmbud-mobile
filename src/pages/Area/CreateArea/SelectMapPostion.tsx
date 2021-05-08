@@ -21,7 +21,7 @@ export function SelectMapPosition() {
     setPosition(e.nativeEvent.coordinate);
   }, []);
 
-  const handleNavigateNext = useCallback(() => {
+  const handleNavigateNextStep = useCallback(() => {
     return navigation.navigate('AreaDetail', {position});
   }, [position, navigation]);
 
@@ -53,7 +53,7 @@ export function SelectMapPosition() {
       </MapContainer>
 
       {position.latitude !== 0 && position.longitude !== 0 && (
-        <NextButton style={{elevation: 2}} onPress={handleNavigateNext}>
+        <NextButton style={{elevation: 2}} onPress={handleNavigateNextStep}>
           <FeatherIcon name="arrow-right" size={22} color="#FFF" />
         </NextButton>
       )}

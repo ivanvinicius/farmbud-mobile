@@ -33,7 +33,7 @@ export function AreaDetail() {
   const {position} = route.params as IAreaProps;
 
   const handleNavigate = useCallback(() => {
-    return navigate('Areas');
+    return navigate('ListArea');
   }, [navigate]);
 
   const handleSubmit = useCallback(
