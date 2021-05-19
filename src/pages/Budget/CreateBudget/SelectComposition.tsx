@@ -1,16 +1,25 @@
 import React, {useEffect, useState} from 'react';
-import {Text} from 'react-native';
 import {useRoute} from '@react-navigation/native';
 
+import {Text} from 'react-native';
 import {api} from '../../../services/api';
 import {PageTitle} from '../../../components/PageTitle';
+import {Button} from '../../../components/Button';
+import {IResponseComposition, ICompositionProps} from '../../../dtos/ICompositionProps'; //eslint-disable-line
 
 import {
   Container,
+  Card,
+  CardRow,
+  CardItem,
+  CardTitle,
   CardInfo,
+  Warn,
+  WarnMessage,
   List,
   ListItem,
 } from '../../../styles/SelectComposition';
+// import {formatToStringBRL} from '../../../utils/formatToStringBRL';
 
 interface IRouteProps {
   area: {
@@ -32,17 +41,9 @@ interface IRouteProps {
 }
 
 export function SelectComposition() {
-  const [compositionProducts, setCompositionProducts] = useState<Array<any>>(
-    [],
-  );
+  const [compositionProducts, setCompositionProducts] = useState<ICompositionProps[]>([]); //eslint-disable-line
   const route = useRoute();
-  const {
-    area,
-    culture,
-    productivity,
-    season,
-    provider,
-  } = route.params as IRouteProps;
+  const {area, culture, productivity, provider} = route.params as IRouteProps;
 
   useEffect(() => {
     api
@@ -53,27 +54,76 @@ export function SelectComposition() {
           productivity: productivity.id,
         },
       })
-      .then((response) => setCompositionProducts(response.data));
-  }, [provider, culture, productivity]);
+      .then((response) => {
+        const formattedData = response.data.map(
+          (item: IResponseComposition) => ({
+            ...item,
+          }),
+        );
+
+        setCompositionProducts(formattedData);
+      });
+  }, [area, provider, culture, productivity]);
 
   return (
     <Container>
       <PageTitle title="Produtos da Composição" />
 
-      <CardInfo
-        style={{
-          elevation: 2,
-        }}>
-        <Text>{`area: ${area.id}`}</Text>
-        <Text>{`area: ${area.size}`}</Text>
-        <Text>{`culture: ${culture.id}`}</Text>
-        <Text>{`productivity: ${productivity.id}`}</Text>
-        <Text>{`season: ${season.id}`}</Text>
-        <Text>{`provider: ${provider.id}`}</Text>
-      </CardInfo>
-
       <List
         showsVerticalScrollIndicator={false}
+        ListHeaderComponent={() => (
+          <>
+            <Warn
+              style={{
+                elevation: 2,
+              }}>
+              <WarnMessage>
+                Os valores abaixo são calculados sob o tamanho área.
+              </WarnMessage>
+            </Warn>
+
+            <Card
+              style={{
+                elevation: 2,
+              }}>
+              <CardRow>
+                <CardItem>
+                  <CardTitle>Area</CardTitle>
+                  <CardInfo>10 Hectares</CardInfo>
+                </CardItem>
+
+                <CardItem>
+                  <CardTitle>Cultura</CardTitle>
+                  <CardInfo>Soja</CardInfo>
+                </CardItem>
+              </CardRow>
+
+              <CardRow>
+                <CardItem>
+                  <CardTitle>Produtividade</CardTitle>
+                  <CardInfo>Baixa Produtividade</CardInfo>
+                </CardItem>
+
+                <CardItem>
+                  <CardTitle>Fornecedor</CardTitle>
+                  <CardInfo>Afubra</CardInfo>
+                </CardItem>
+              </CardRow>
+
+              <CardRow>
+                <CardItem>
+                  <CardTitle>Produtos</CardTitle>
+                  <CardInfo>9 Produtos</CardInfo>
+                </CardItem>
+
+                <CardItem>
+                  <CardTitle>Valor Total</CardTitle>
+                  <CardInfo>R$ 12.980,00</CardInfo>
+                </CardItem>
+              </CardRow>
+            </Card>
+          </>
+        )}
         data={compositionProducts}
         keyExtractor={(composition) => composition.id}
         renderItem={({item}) => (
@@ -81,18 +131,14 @@ export function SelectComposition() {
             style={{
               elevation: 1,
             }}>
-            <Text>{item.size}</Text>
-            <Text>{item.price}</Text>
-            <Text>{item.recommendation}</Text>
-            <Text>{item.brand_name}</Text>
-            <Text>{item.measure_name}</Text>
-            <Text>{item.category_name}</Text>
-            <Text>{item.subcategory_name}</Text>
             <Text>{item.product_name}</Text>
-            <Text>{item.culture_name}</Text>
-            <Text>{item.provider_name}</Text>
+            <Text>{item.price}</Text>
           </ListItem>
         )}
+        ListFooterComponent={() => (
+          <Button onPress={() => ({})}>Finalizar Orçamento</Button>
+        )}
+        ListFooterComponentStyle={{marginBottom: 16}}
       />
     </Container>
   );
