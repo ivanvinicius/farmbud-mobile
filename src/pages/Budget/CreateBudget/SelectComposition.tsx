@@ -1,11 +1,18 @@
-import React, {useEffect, useState} from 'react';
-import {useRoute} from '@react-navigation/native';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-param-reassign */
 
-import {Text} from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
+import {useNavigation, useRoute} from '@react-navigation/native';
+
+import {Alert, Text} from 'react-native';
 import {api} from '../../../services/api';
 import {PageTitle} from '../../../components/PageTitle';
 import {Button} from '../../../components/Button';
-import {IResponseComposition, ICompositionProps} from '../../../dtos/ICompositionProps'; //eslint-disable-line
+import {formatToStringBRL} from '../../../utils/formatToStringBRL';
+import {
+  IResponseComposition,
+  ICompositionProps,
+} from '../../../dtos/ICompositionProps';
 
 import {
   Container,
@@ -18,8 +25,11 @@ import {
   WarnMessage,
   List,
   ListItem,
+  LightLine,
+  ProductLine,
+  BoldLine,
+  Line,
 } from '../../../styles/SelectComposition';
-// import {formatToStringBRL} from '../../../utils/formatToStringBRL';
 
 interface IRouteProps {
   area: {
@@ -40,10 +50,89 @@ interface IRouteProps {
   };
 }
 
+interface IHandleUnitsProps {
+  size: string;
+  recommendation: string;
+  price: string;
+}
+
 export function SelectComposition() {
-  const [compositionProducts, setCompositionProducts] = useState<ICompositionProps[]>([]); //eslint-disable-line
+  const [compositionProducts, setCompositionProducts] = useState<
+    ICompositionProps[]
+  >([]);
+  const [totalPrice, setTotalPrice] = useState('0');
   const route = useRoute();
-  const {area, culture, productivity, provider} = route.params as IRouteProps;
+  const {navigate} = useNavigation();
+  const {
+    area,
+    culture,
+    productivity,
+    provider,
+    season,
+  } = route.params as IRouteProps;
+
+  const handleSubmit = useCallback(async () => {
+    const formattedData = compositionProducts.map((item) => ({
+      portfolio_id: item.id,
+      amount_usage: item.amount_usage,
+      amount_quantity: item.amount_quantity,
+      amount_cost: item.amount_cost,
+    }));
+
+    try {
+      await api.post('/budgets', {
+        provider_id: provider.id,
+        area_id: area.id,
+        season_id: season.id,
+        items: formattedData,
+      });
+
+      Alert.alert('Cadastro realizado com sucesso');
+
+      navigate('Dashboard');
+    } catch (err) {
+      Alert.alert('Houve um erro');
+    }
+  }, [area, season, provider, compositionProducts, navigate]);
+
+  const handleUnitsQuantity = useCallback(
+    ({size, recommendation, price}: IHandleUnitsProps) => {
+      const roundedArea = Math.floor(area.size);
+      const parsedSize = parseFloat(size);
+      const parsedRecommendation = parseFloat(recommendation);
+      const parsedPrice = parseFloat(price);
+
+      let units = parsedRecommendation / parsedSize;
+      const restDivision = parsedRecommendation % parsedSize;
+
+      if (restDivision !== 0) {
+        units = Math.ceil(units);
+      }
+
+      return {
+        cost: units * parsedPrice * roundedArea,
+        usage: units * parsedSize * roundedArea,
+        quantity: units * roundedArea,
+      };
+    },
+    [area],
+  );
+
+  useEffect(() => {
+    const formattedPrices: Array<number> = [0];
+
+    compositionProducts.map(({amount_cost}) =>
+      formattedPrices.push(amount_cost),
+    );
+
+    const total = formattedPrices.reduce(
+      (acc, currentValue) => acc + currentValue,
+    );
+
+    const formattedTotal = formatToStringBRL(String(total));
+
+    setTotalPrice(formattedTotal);
+  }, [compositionProducts]);
 
   useEffect(() => {
     api
@@ -56,14 +145,38 @@ export function SelectComposition() {
       })
       .then((response) => {
         const formattedData = response.data.map(
-          (item: IResponseComposition) => ({
-            ...item,
+          ({size, recommendation, price, ...rest}: IResponseComposition) => ({
+            ...rest,
+
+            size: parseFloat(size),
+            price: parseFloat(price),
+            recommendation: parseFloat(recommendation),
+
+            formatted_size: formatToStringBRL(size),
+            formatted_price: formatToStringBRL(price),
+            formatted_recommendation: formatToStringBRL(recommendation),
+
+            amount_cost: handleUnitsQuantity({size, recommendation, price})
+              .cost,
+
+            amount_usage: handleUnitsQuantity({size, recommendation, price})
+              .usage,
+
+            amount_quantity: handleUnitsQuantity({size, recommendation, price})
+              .quantity,
+
+            formatted_amount_cost: formatToStringBRL(
+              String(handleUnitsQuantity({size, recommendation, price}).cost),
+            ),
+            formatted_amount_usage: formatToStringBRL(
+              String(handleUnitsQuantity({size, recommendation, price}).usage),
+            ),
           }),
         );
 
         setCompositionProducts(formattedData);
       });
-  }, [area, provider, culture, productivity]);
+  }, [area, provider, culture, productivity, handleUnitsQuantity]);
 
   return (
     <Container>
@@ -88,37 +201,22 @@ export function SelectComposition() {
               }}>
               <CardRow>
                 <CardItem>
-                  <CardTitle>Area</CardTitle>
-                  <CardInfo>10 Hectares</CardInfo>
-                </CardItem>
-
-                <CardItem>
-                  <CardTitle>Cultura</CardTitle>
-                  <CardInfo>Soja</CardInfo>
-                </CardItem>
-              </CardRow>
-
-              <CardRow>
-                <CardItem>
-                  <CardTitle>Produtividade</CardTitle>
-                  <CardInfo>Baixa Produtividade</CardInfo>
-                </CardItem>
-
-                <CardItem>
-                  <CardTitle>Fornecedor</CardTitle>
-                  <CardInfo>Afubra</CardInfo>
+                  <CardTitle>Tam. Área</CardTitle>
+                  <CardInfo>
+                    {` ${formatToStringBRL(String(area.size))} Hectares`}
+                  </CardInfo>
                 </CardItem>
               </CardRow>
 
               <CardRow>
                 <CardItem>
                   <CardTitle>Produtos</CardTitle>
-                  <CardInfo>9 Produtos</CardInfo>
+                  <CardInfo>{`${compositionProducts.length} Produtos`}</CardInfo>
                 </CardItem>
 
                 <CardItem>
-                  <CardTitle>Valor Total</CardTitle>
-                  <CardInfo>R$ 12.980,00</CardInfo>
+                  <CardTitle>Investimento</CardTitle>
+                  <CardInfo>{`R$ ${totalPrice}`}</CardInfo>
                 </CardItem>
               </CardRow>
             </Card>
@@ -131,12 +229,22 @@ export function SelectComposition() {
             style={{
               elevation: 1,
             }}>
-            <Text>{item.product_name}</Text>
-            <Text>{item.price}</Text>
+            <ProductLine>{item.product_name}</ProductLine>
+            <LightLine>{`${item.category_name} ${item.subcategory_name}`}</LightLine>
+            <Line>{`Tamanho unitário: ${item.formatted_size} ${item.measure_name}`}</Line>
+            <Line>{`Valor unitário: R$ ${item.formatted_price}`}</Line>
+            <Text />
+            <BoldLine>{`Recomendação: ${item.formatted_recommendation} ${item.measure_name} por hectare`}</BoldLine>
+            <Text />
+            <BoldLine>Composição para a área</BoldLine>
+            <Line>{`${item.amount_quantity} unidades do produto`}</Line>
+            <Line>{`Quantidade: ${item.formatted_amount_usage} ${item.measure_name}`}</Line>
+            <Line>{`Investimento: R$ ${item.formatted_amount_cost}`}</Line>
+            <Text />
           </ListItem>
         )}
         ListFooterComponent={() => (
-          <Button onPress={() => ({})}>Finalizar Orçamento</Button>
+          <Button onPress={handleSubmit}>Finalizar Orçamento</Button>
         )}
         ListFooterComponentStyle={{marginBottom: 16}}
       />

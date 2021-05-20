@@ -10,7 +10,7 @@ export const Container = styled.View`
 
 export const Card = styled.View`
   width: 100%;
-  height: 190px;
+  height: 150px;
 
   padding: 8px;
 
@@ -71,7 +71,7 @@ export const ListItem = styled.View`
   border: 1px solid #e6e6f0;
 `;
 
-export const CategoryLine = styled.Text`
+export const LightLine = styled.Text`
   padding: 2px 0;
 
   font-family: 'Poppins-Regular';
@@ -87,24 +87,16 @@ export const ProductLine = styled.Text`
   color: #7620d8;
 `;
 
-export const RecommendationLine = styled.Text`
+export const BoldLine = styled.Text`
   padding: 1px 0;
 
-  font-family: 'Poppins-Regular';
+  font-family: 'Poppins-Medium';
   font-size: 14px;
 `;
 
-export const ValueLine = styled.Text`
+export const Line = styled.Text`
   padding: 1px 0;
 
   font-family: 'Poppins-Regular';
   font-size: 14px;
-`;
-
-export const UnitLine = styled.Text`
-  padding: 1px 0;
-
-  font-family: 'Poppins-Regular';
-  font-size: 14px;
-  color: #9c98a6;
 `;

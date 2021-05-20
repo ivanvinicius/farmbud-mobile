@@ -32,7 +32,14 @@ export interface ICompositionProps
   price: number;
   recommendation: number;
 
+  formatted_size: string;
+  formatted_price: string;
+  formatted_recommendation: string;
+
   amount_usage: number;
   amount_quantity: number;
   amount_cost: number;
+
+  formatted_amount_usage: string;
+  formatted_amount_cost: string;
 }
