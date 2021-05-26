@@ -37,13 +37,17 @@ export const Title = styled.Text`
   color: #7620d8;
 `;
 
-export const Description = styled.Text`
+export const Line = styled.Text`
   font-family: 'Poppins-Regular';
-  font-size: 16px;
-  color: #6a6180;
+  font-size: 14px;
 `;
 
-export const SmallDescription = styled.Text`
+export const BoldLine = styled.Text`
+  font-family: 'Poppins-Medium';
+  font-size: 14px;
+`;
+
+export const LightLine = styled.Text`
   font-family: 'Poppins-Regular';
   font-size: 14px;
   color: #9c98a6;

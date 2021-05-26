@@ -14,8 +14,9 @@ import {
   ListItem,
   ListItemBorder,
   Title,
-  Description,
-  SmallDescription,
+  Line,
+  BoldLine,
+  LightLine,
 } from '../../styles/Budget';
 
 export function Budget() {
@@ -56,6 +57,7 @@ export function Budget() {
             season_start_at: formattedStart,
             season_end_at: formattedEnd,
             amount_cost: formatToStringBRL(amount_cost),
+            productivity,
             formatted_productivity:
               productivityDescription[Number(productivity) - 1],
           };
@@ -80,18 +82,17 @@ export function Budget() {
               style={{
                 elevation: 1,
               }}>
-              <Description>{`${budget.formatted_productivity} para o ${budget.culture_name}`}</Description>
-
+              <Line>{`${budget.formatted_productivity} para o ${budget.culture_name}`}</Line>
               <Title>{`Fornecedor: ${budget.provider_name}`}</Title>
               <Title>{`Investimento: R$ ${budget.amount_cost}`}</Title>
               <Text />
-              <Description>{budget.area_name}</Description>
-              <SmallDescription>{`${budget.area_description}`}</SmallDescription>
-              <Description>{`${budget.area_size} Hectares`}</Description>
+              <BoldLine>{budget.area_name}</BoldLine>
+              <Line>{`Tam. Área: ${budget.area_size} Hectares`}</Line>
+              <LightLine>{`${budget.area_description}`}</LightLine>
               <Text />
-              <Description>{budget.season_name}</Description>
-              <SmallDescription>{budget.season_description}</SmallDescription>
-              <Description>{`${budget.season_start_at} e ${budget.season_end_at}`}</Description>
+              <BoldLine>{budget.season_name}</BoldLine>
+              <Line>{`${budget.season_start_at} e ${budget.season_end_at}`}</Line>
+              <LightLine>{budget.season_description}</LightLine>
             </ListItemBorder>
           </ListItem>
         )}

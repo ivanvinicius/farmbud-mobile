@@ -97,22 +97,17 @@ export function SelectComposition() {
 
   const handleUnitsQuantity = useCallback(
     ({size, recommendation, price}: IHandleUnitsProps) => {
-      const roundedArea = area.size < 1 ? 1 : Math.floor(area.size);
-      const parsedSize = parseFloat(size);
-      const parsedRecommendation = parseFloat(recommendation);
-      const parsedPrice = parseFloat(price);
-
-      let units = parsedRecommendation / parsedSize;
-      const restDivision = parsedRecommendation % parsedSize;
+      let units = (parseFloat(recommendation) * area.size) / parseFloat(size);
+      const restDivision = (parseFloat(recommendation) * area.size) % parseFloat(size); //eslint-disable-line
 
       if (restDivision !== 0) {
         units = Math.ceil(units);
       }
 
       return {
-        cost: units * parsedPrice * roundedArea,
-        usage: units * parsedSize * roundedArea,
-        quantity: units * roundedArea,
+        quantity: units,
+        usage: units * parseFloat(size),
+        cost: units * parseFloat(price),
       };
     },
     [area],
@@ -156,14 +151,14 @@ export function SelectComposition() {
             formatted_price: formatToStringBRL(price),
             formatted_recommendation: formatToStringBRL(recommendation),
 
-            amount_cost: handleUnitsQuantity({size, recommendation, price})
-              .cost,
+            amount_quantity: handleUnitsQuantity({size, recommendation, price})
+              .quantity,
 
             amount_usage: handleUnitsQuantity({size, recommendation, price})
               .usage,
 
-            amount_quantity: handleUnitsQuantity({size, recommendation, price})
-              .quantity,
+            amount_cost: handleUnitsQuantity({size, recommendation, price})
+              .cost,
 
             formatted_amount_cost: formatToStringBRL(
               String(handleUnitsQuantity({size, recommendation, price}).cost),
@@ -191,7 +186,8 @@ export function SelectComposition() {
                 elevation: 2,
               }}>
               <WarnMessage>
-                Os valores abaixo são calculados sob o tamanho área.
+                O tamanho da área sofre arredondamento positivo, para que não
+                haja falta de produtos
               </WarnMessage>
             </Warn>
 
