@@ -53,7 +53,7 @@ export function Dashboard() {
           </ActionBorder>
         </Action>
 
-        <SmallAction>
+        <SmallAction onPress={() => handleNavigate('Budget')}>
           <SmallActionBorder
             style={{
               elevation: 1,

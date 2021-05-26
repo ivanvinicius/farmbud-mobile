@@ -15,7 +15,7 @@ export const List = styled(FlatList as new () => FlatList<ISeasonProps>)``;
 
 export const ListItem = styled(RectButton)`
   width: 100%;
-  height: 60px;
+  height: 100px;
 
   margin-bottom: 16px;
 
@@ -33,10 +33,22 @@ export const ListItemBorder = styled.View`
   border: 1px solid #e6e6f0;
 `;
 
-export const ListItemDescription = styled.Text`
+export const ListItemTitle = styled.Text`
   font-family: 'Poppins-Regular';
   font-size: 16px;
   color: #7620d8;
+`;
+
+export const ListItemDescription = styled.Text`
+  font-family: 'Poppins-Regular';
+  font-size: 14px;
+  color: #9c98a6;
+`;
+
+export const ListItemSubTitle = styled.Text`
+  font-family: 'Poppins-Medium';
+  font-size: 14px;
+  color: #9c98a6;
 `;
 
 export const AddButton = styled(RectButton)`

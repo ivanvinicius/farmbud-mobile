@@ -35,7 +35,7 @@ export const MapContainer = styled(MapView)`
 
 export const CalloutContainer = styled.View`
   width: 250px;
-  height: 80px;
+  height: 100px;
   padding: 8px 16px;
 
   background-color: #fff;

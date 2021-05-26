@@ -10,7 +10,9 @@ import {
   List,
   ListItem,
   ListItemBorder,
+  ListItemTitle,
   ListItemDescription,
+  ListItemSubTitle,
 } from '../../../styles/Season';
 
 interface IRouteProps {
@@ -45,7 +47,25 @@ export function SelectSeason() {
   );
 
   useEffect(() => {
-    api.get('/seasons').then((response) => setSeasons(response.data));
+    api.get('/seasons').then((response) => {
+      const formattedData = response.data.map(
+        ({start_at, end_at, ...rest}: ISeasonProps) => {
+          const startDate = start_at.split('T');
+          const endDate = end_at.split('T');
+
+          const formattedStart = startDate[0].split('-').reverse().join('/');
+          const formattedEnd = endDate[0].split('-').reverse().join('/');
+
+          return {
+            ...rest,
+            start_at: formattedStart,
+            end_at: formattedEnd,
+          };
+        },
+      );
+
+      setSeasons(formattedData);
+    });
   }, []);
 
   return (
@@ -62,7 +82,9 @@ export function SelectSeason() {
               style={{
                 elevation: 1,
               }}>
-              <ListItemDescription>{season.name}</ListItemDescription>
+              <ListItemTitle>{season.name}</ListItemTitle>
+              <ListItemDescription>{season.description}</ListItemDescription>
+              <ListItemSubTitle>{`${season.start_at} - ${season.end_at}`}</ListItemSubTitle>
             </ListItemBorder>
           </ListItem>
         )}

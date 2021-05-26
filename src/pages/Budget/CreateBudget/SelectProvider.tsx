@@ -7,6 +7,7 @@ import {IProviderProps} from '../../../dtos/IProviderProps';
 
 import {
   Container,
+  WarnMessage,
   List,
   ListItem,
   ListItemBorder,
@@ -63,25 +64,31 @@ export function SelectProvider() {
   return (
     <Container>
       <PageTitle title="Fornecedores" />
-
-      <List
-        showsVerticalScrollIndicator={false}
-        data={providers}
-        keyExtractor={(provider) => provider.provider_id}
-        renderItem={({item: provider}) => (
-          <ListItem
-            onPress={() => handleNavigateNextStep(provider.provider_id)}>
-            <ListItemBorder
-              style={{
-                elevation: 1,
-              }}>
-              <ListItemDescription>
-                {provider.provider_name}
-              </ListItemDescription>
-            </ListItemBorder>
-          </ListItem>
-        )}
-      />
+      {!providers || providers.length === 0 || providers === undefined ? (
+        <WarnMessage>
+          Nenhum fornecedor foi encontrado para as informações seleciondas
+          anteriormente
+        </WarnMessage>
+      ) : (
+        <List
+          showsVerticalScrollIndicator={false}
+          data={providers}
+          keyExtractor={(provider) => provider.provider_id}
+          renderItem={({item: provider}) => (
+            <ListItem
+              onPress={() => handleNavigateNextStep(provider.provider_id)}>
+              <ListItemBorder
+                style={{
+                  elevation: 1,
+                }}>
+                <ListItemDescription>
+                  {provider.provider_name}
+                </ListItemDescription>
+              </ListItemBorder>
+            </ListItem>
+          )}
+        />
+      )}
     </Container>
   );
 }

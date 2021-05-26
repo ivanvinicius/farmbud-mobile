@@ -3,6 +3,6 @@ export interface ISeasonProps {
   user_id: string;
   name: string;
   description: string;
-  start_at: Date;
-  end_at: Date;
+  start_at: string;
+  end_at: string;
 }

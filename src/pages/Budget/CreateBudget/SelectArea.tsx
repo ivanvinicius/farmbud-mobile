@@ -94,7 +94,7 @@ export function SelectArea() {
                 tooltip>
                 <CalloutContainer>
                   <CalloutTitle>{area.name}</CalloutTitle>
-                  <CalloutDescription>{area.description}</CalloutDescription>
+                  <CalloutDescription>{`${area.description} / ${area.size} hectare(s)`}</CalloutDescription>
                 </CalloutContainer>
               </Callout>
             </Marker>

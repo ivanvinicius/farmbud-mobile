@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useIsFocused} from '@react-navigation/native';
 
 import {PageTitle} from '../../components/PageTitle';
 import {api} from '../../services/api';
@@ -10,7 +10,9 @@ import {
   List,
   ListItem,
   ListItemBorder,
+  ListItemTitle,
   ListItemDescription,
+  ListItemSubTitle,
   AddButton,
   AddButtonText,
 } from '../../styles/Season';
@@ -18,10 +20,31 @@ import {
 export function Season() {
   const [seasons, setSeasons] = useState<ISeasonProps[]>([]);
   const {navigate} = useNavigation();
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    api.get('/seasons').then((response) => setSeasons(response.data));
-  }, []);
+    api.get('/seasons').then((response) => {
+      if (isFocused) {
+        const formattedData = response.data.map(
+          ({start_at, end_at, ...rest}: ISeasonProps) => {
+            const startDate = start_at.split('T');
+            const endDate = end_at.split('T');
+
+            const formattedStart = startDate[0].split('-').reverse().join('/');
+            const formattedEnd = endDate[0].split('-').reverse().join('/');
+
+            return {
+              ...rest,
+              start_at: formattedStart,
+              end_at: formattedEnd,
+            };
+          },
+        );
+
+        setSeasons(formattedData);
+      }
+    });
+  }, [isFocused]);
 
   return (
     <Container>
@@ -37,7 +60,9 @@ export function Season() {
               style={{
                 elevation: 1,
               }}>
-              <ListItemDescription>{season.name}</ListItemDescription>
+              <ListItemTitle>{season.name}</ListItemTitle>
+              <ListItemDescription>{season.description}</ListItemDescription>
+              <ListItemSubTitle>{`${season.start_at} - ${season.end_at}`}</ListItemSubTitle>
             </ListItemBorder>
           </ListItem>
         )}

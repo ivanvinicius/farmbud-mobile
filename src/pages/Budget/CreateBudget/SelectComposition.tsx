@@ -97,7 +97,7 @@ export function SelectComposition() {
 
   const handleUnitsQuantity = useCallback(
     ({size, recommendation, price}: IHandleUnitsProps) => {
-      const roundedArea = Math.floor(area.size);
+      const roundedArea = area.size < 1 ? 1 : Math.floor(area.size);
       const parsedSize = parseFloat(size);
       const parsedRecommendation = parseFloat(recommendation);
       const parsedPrice = parseFloat(price);
@@ -202,9 +202,7 @@ export function SelectComposition() {
               <CardRow>
                 <CardItem>
                   <CardTitle>Tam. Área</CardTitle>
-                  <CardInfo>
-                    {` ${formatToStringBRL(String(area.size))} Hectares`}
-                  </CardInfo>
+                  <CardInfo>{` ${area.size} Hectares`}</CardInfo>
                 </CardItem>
               </CardRow>
 
