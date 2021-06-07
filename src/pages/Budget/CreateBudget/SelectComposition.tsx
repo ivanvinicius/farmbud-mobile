@@ -91,7 +91,9 @@ export function SelectComposition() {
 
       navigate('Dashboard');
     } catch (err) {
-      Alert.alert('Houve um erro');
+      if (err.response.data.message) {
+        Alert.alert('Houve um problema', err.response.data.message);
+      }
     }
   }, [area, season, provider, compositionProducts, navigate]);
 

@@ -1,28 +1,24 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-import React, {useCallback, useRef} from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
+import {Alert} from 'react-native';
 import {Form} from '@unform/mobile';
 import {FormHandles} from '@unform/core';
-import * as Yup from 'yup';
-import {Alert} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import * as Yup from 'yup';
 
 import {PageTitle} from '../../components/PageTitle';
-import {Button} from '../../components/Button';
+import {getValidationErrors} from '../../utils/getValidationErrors';
 import Input from '../../components/Input';
+import {Button} from '../../components/Button';
+import {api} from '../../services/api';
 
 import {Container, Content} from '../../styles/CreateSeason';
-import {api} from '../../services/api';
-import {getValidationErrors} from '../../utils/getValidationErrors';
 
 interface IFormData {
   name: string;
   description: string;
-  start_at: string;
-  end_at: string;
 }
 
-export function CreateSeason() {
+export function NewCreateSeason() {
   const {goBack} = useNavigation();
   const formRef = useRef<FormHandles>(null);
 
@@ -31,27 +27,20 @@ export function CreateSeason() {
   }, [goBack]);
 
   const handleSubmit = useCallback(
-    async ({name, description, start_at, end_at}: IFormData) => {
+    async ({name, description}: IFormData) => {
       try {
         formRef.current?.setErrors({});
 
         const schema = Yup.object().shape({
-          name: Yup.string().required(),
-          description: Yup.string().required(),
-          start_at: Yup.string().required(),
-          end_at: Yup.string().required(),
+          name: Yup.string().required('Nome obrigatório'),
+          description: Yup.string().required('Descrição Obrigatório'),
         });
 
-        await schema.validate(
-          {name, description, start_at, end_at},
-          {abortEarly: false},
-        );
+        await schema.validate({name, description}, {abortEarly: false});
 
         const formattedData = {
           name,
           description,
-          start_at: start_at.split('/').reverse().join('-'),
-          end_at: end_at.split('/').reverse().join('-'),
         };
 
         await api.post('/seasons', formattedData);
@@ -77,15 +66,10 @@ export function CreateSeason() {
 
   return (
     <Container>
-      <PageTitle title="Cadastrar Temporada" />
+      <PageTitle title="new create season" />
 
       <Content>
-        <Form
-          initialData={{
-            start_at: new Date().toLocaleDateString('pt-BR'),
-          }}
-          ref={formRef}
-          onSubmit={handleSubmit}>
+        <Form ref={formRef} onSubmit={handleSubmit}>
           <Input
             name="name"
             placeholder="Nome"
@@ -96,18 +80,6 @@ export function CreateSeason() {
             name="description"
             placeholder="Descrição"
             icon="file"
-            autoCorrect={false}
-          />
-          <Input
-            name="start_at"
-            placeholder="Data Inicial 10/07/2021"
-            icon="calendar"
-            autoCorrect={false}
-          />
-          <Input
-            name="end_at"
-            placeholder="Data Final 12/09/2021"
-            icon="calendar"
             autoCorrect={false}
           />
 

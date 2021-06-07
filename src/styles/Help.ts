@@ -25,6 +25,7 @@ export const Description = styled.Text`
   font-size: 14px;
   color: #6a6180;
   margin: 5px 0;
+  text-align: justify;
 `;
 
 export const Strong = styled.Text`

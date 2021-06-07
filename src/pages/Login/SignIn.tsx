@@ -61,11 +61,11 @@ export function SignIn() {
           const errors = getValidationErrors(err);
 
           formRef.current?.setErrors(errors);
-        } else {
-          Alert.alert(
-            'Erro',
-            'Ocorreu um erro no login, cheque suas credenciais.',
-          );
+
+          return;
+        }
+        if (err.response.data.message) {
+          Alert.alert('Houve um problema', err.response.data.message);
         }
       }
     },

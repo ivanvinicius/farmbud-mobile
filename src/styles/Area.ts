@@ -56,6 +56,27 @@ export const CalloutDescription = styled.Text`
   color: #9c98a6;
 `;
 
+export const AreaCounter = styled.View`
+  position: absolute;
+  z-index: 5;
+  top: 30px;
+  right: 30px;
+
+  width: 190px;
+  height: 40px;
+
+  align-items: center;
+  justify-content: center;
+
+  background-color: #fff;
+  border-radius: 8px;
+`;
+
+export const AreaCounterText = styled.Text`
+  font-family: 'Poppins-regular';
+  font-size: 16px;
+`;
+
 export const AddButton = styled(RectButton)`
   position: absolute;
   z-index: 5;

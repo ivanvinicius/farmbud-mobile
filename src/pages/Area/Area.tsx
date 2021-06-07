@@ -17,6 +17,8 @@ import {
   CalloutTitle,
   CalloutDescription,
   AddButton,
+  AreaCounter,
+  AreaCounterText,
 } from '../../styles/Area';
 
 export function Area() {
@@ -85,6 +87,10 @@ export function Area() {
           );
         })}
       </MapContainer>
+
+      <AreaCounter>
+        <AreaCounterText>{`${areas.length} áreas cadastradas`}</AreaCounterText>
+      </AreaCounter>
 
       <AddButton onPress={handleNavigate} style={{elevation: 2}}>
         <FeatherIcon name="plus" size={22} color="#FFF" />

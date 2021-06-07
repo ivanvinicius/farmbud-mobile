@@ -17,6 +17,8 @@ import {
   CalloutContainer,
   CalloutTitle,
   CalloutDescription,
+  AreaCounter,
+  AreaCounterText,
 } from '../../../styles/Area';
 
 interface IParamsData {
@@ -101,6 +103,10 @@ export function SelectArea() {
           );
         })}
       </MapContainer>
+
+      <AreaCounter>
+        <AreaCounterText>{`${areas.length} áreas cadastradas`}</AreaCounterText>
+      </AreaCounter>
     </Container>
   );
 }
