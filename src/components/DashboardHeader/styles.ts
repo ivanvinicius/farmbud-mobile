@@ -9,6 +9,8 @@ export const Container = styled.View`
 `;
 
 export const ModalContent = styled.View`
+  flex: 1;
+
   width: 300px;
   height: 150px;
 

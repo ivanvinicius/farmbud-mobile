@@ -39,6 +39,7 @@ export function BudgetDetail() {
         params: {
           provider_id: budget.provider_id,
           culture_id: budget.culture_id,
+          area_id: budget.area_id,
           productivity: budget.productivity,
         },
       })
