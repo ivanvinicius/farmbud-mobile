@@ -7,6 +7,7 @@ import {ISeasonProps} from '../../dtos/ISeasonProps';
 
 import {
   Container,
+  SpaceFooter,
   List,
   ListItem,
   ListItemBorder,
@@ -53,6 +54,7 @@ export function Season() {
       <List
         showsVerticalScrollIndicator={false}
         data={seasons}
+        ListFooterComponent={() => <SpaceFooter />}
         keyExtractor={(season) => season.id}
         renderItem={({item: season}) => (
           <ListItem>

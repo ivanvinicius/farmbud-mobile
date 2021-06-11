@@ -11,7 +11,10 @@ export const Container = styled.View`
   z-index: 0;
 `;
 
-export const List = styled(FlatList as new () => FlatList<ISeasonProps>)``;
+export const List = styled(FlatList as new () => FlatList<ISeasonProps>)`
+  flex: 1;
+  height: 200px;
+`;
 
 export const ListItem = styled(RectButton)`
   width: 100%;
@@ -77,4 +80,9 @@ export const AddButtonText = styled.Text`
   color: #ffffff;
   font-family: 'Poppins-Medium';
   font-size: 18px;
+`;
+
+export const SpaceFooter = styled.View`
+  width: 100%;
+  height: 90px;
 `;
