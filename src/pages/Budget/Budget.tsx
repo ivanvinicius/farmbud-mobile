@@ -17,6 +17,7 @@ import {
   Line,
   BoldLine,
   LightLine,
+  WarnMessage,
 } from '../../styles/Budget';
 
 export function Budget() {
@@ -72,31 +73,35 @@ export function Budget() {
     <Container>
       <PageTitle title="Orçamentos" />
 
-      <List
-        showsVerticalScrollIndicator={false}
-        data={budgets}
-        keyExtractor={(budget) => budget.id}
-        renderItem={({item: budget}) => (
-          <ListItem onPress={() => handleNavigate(budget)}>
-            <ListItemBorder
-              style={{
-                elevation: 1,
-              }}>
-              <Line>{`${budget.formatted_productivity} para o ${budget.culture_name}`}</Line>
-              <Title>{`Fornecedor: ${budget.provider_name}`}</Title>
-              <Title>{`Investimento: R$ ${budget.amount_cost}`}</Title>
-              <Text />
-              <BoldLine>{budget.area_name}</BoldLine>
-              <Line>{`Tam. Área: ${budget.area_size} Hectares`}</Line>
-              <LightLine>{`${budget.area_description}`}</LightLine>
-              <Text />
-              <BoldLine>{budget.season_name}</BoldLine>
-              <Line>{`${budget.season_start_at} e ${budget.season_end_at}`}</Line>
-              <LightLine>{budget.season_description}</LightLine>
-            </ListItemBorder>
-          </ListItem>
-        )}
-      />
+      {!budgets || budgets.length === 0 || budgets === undefined ? (
+        <WarnMessage>Nenhum orçamento foi cadastrado até o momento</WarnMessage>
+      ) : (
+        <List
+          showsVerticalScrollIndicator={false}
+          data={budgets}
+          keyExtractor={(budget) => budget.id}
+          renderItem={({item: budget}) => (
+            <ListItem onPress={() => handleNavigate(budget)}>
+              <ListItemBorder
+                style={{
+                  elevation: 1,
+                }}>
+                <Line>{`${budget.formatted_productivity} para o ${budget.culture_name}`}</Line>
+                <Title>{`Fornecedor: ${budget.provider_name}`}</Title>
+                <Title>{`Investimento: R$ ${budget.amount_cost}`}</Title>
+                <Text />
+                <BoldLine>{budget.area_name}</BoldLine>
+                <Line>{`Tam. Área: ${budget.area_size} Hectares`}</Line>
+                <LightLine>{`${budget.area_description}`}</LightLine>
+                <Text />
+                <BoldLine>{budget.season_name}</BoldLine>
+                <Line>{`${budget.season_start_at} e ${budget.season_end_at}`}</Line>
+                <LightLine>{budget.season_description}</LightLine>
+              </ListItemBorder>
+            </ListItem>
+          )}
+        />
+      )}
     </Container>
   );
 }

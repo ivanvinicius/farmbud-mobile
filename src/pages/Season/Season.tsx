@@ -16,6 +16,7 @@ import {
   ListItemSubTitle,
   AddButton,
   AddButtonText,
+  WarnMessage,
 } from '../../styles/Season';
 
 export function Season() {
@@ -51,24 +52,30 @@ export function Season() {
     <Container>
       <PageTitle title="Temporadas" />
 
-      <List
-        showsVerticalScrollIndicator={false}
-        data={seasons}
-        ListFooterComponent={() => <SpaceFooter />}
-        keyExtractor={(season) => season.id}
-        renderItem={({item: season}) => (
-          <ListItem>
-            <ListItemBorder
-              style={{
-                elevation: 1,
-              }}>
-              <ListItemTitle>{season.name}</ListItemTitle>
-              <ListItemDescription>{season.description}</ListItemDescription>
-              <ListItemSubTitle>{`${season.start_at} - ${season.end_at}`}</ListItemSubTitle>
-            </ListItemBorder>
-          </ListItem>
-        )}
-      />
+      {!seasons || seasons.length === 0 || seasons === undefined ? (
+        <WarnMessage>
+          Nenhuma temporada foi cadastrada até o momento
+        </WarnMessage>
+      ) : (
+        <List
+          showsVerticalScrollIndicator={false}
+          data={seasons}
+          ListFooterComponent={() => <SpaceFooter />}
+          keyExtractor={(season) => season.id}
+          renderItem={({item: season}) => (
+            <ListItem>
+              <ListItemBorder
+                style={{
+                  elevation: 1,
+                }}>
+                <ListItemTitle>{season.name}</ListItemTitle>
+                <ListItemDescription>{season.description}</ListItemDescription>
+                <ListItemSubTitle>{`${season.start_at} - ${season.end_at}`}</ListItemSubTitle>
+              </ListItemBorder>
+            </ListItem>
+          )}
+        />
+      )}
 
       <AddButton onPress={() => navigate('CreateSeason')}>
         <AddButtonText>Nova Temporada</AddButtonText>

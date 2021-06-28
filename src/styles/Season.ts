@@ -11,6 +11,12 @@ export const Container = styled.View`
   z-index: 0;
 `;
 
+export const WarnMessage = styled.Text`
+  font-family: 'Poppins-Regular';
+  font-size: 16px;
+  color: #de5431;
+`;
+
 export const List = styled(FlatList as new () => FlatList<ISeasonProps>)`
   flex: 1;
   height: 200px;

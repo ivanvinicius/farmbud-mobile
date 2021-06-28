@@ -20,6 +20,12 @@ export const ListItem = styled(RectButton)`
   overflow: hidden;
 `;
 
+export const WarnMessage = styled.Text`
+  font-family: 'Poppins-Regular';
+  font-size: 16px;
+  color: #de5431;
+`;
+
 export const ListItemBorder = styled.View`
   width: 100%;
   height: 100%;
